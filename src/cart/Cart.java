@@ -6,6 +6,7 @@ import product.interfaces.Shippable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Cart {
     private List<CartItem> items;
@@ -22,6 +23,7 @@ public class Cart {
         }
         if(product instanceof Expirable && ((Expirable) product).isExpired())
             throw new IllegalArgumentException("you can't take expired products");
+
         items.add(new CartItem(product, quantity));
     }
 
@@ -33,56 +35,45 @@ public class Cart {
         return items;
     }
 
-    public List <Expirable> getExpirableItems(){
-        List <Expirable> ExpirableItems = new ArrayList<>();
-        for(CartItem item : items){
-            if(item instanceof Expirable){
-                ExpirableItems.add((Expirable) item);
-            }
-        }
-        return ExpirableItems;
-    }
-
-    public List <Shippable> getShippableItems(){
-        List <Shippable> ShippableItems = new ArrayList<>();
-        for(CartItem item : items){
-            if(item.getProduct() instanceof Shippable){
-                ShippableItems.add((Shippable) item.getProduct());
-            }
-        }
-        return ShippableItems;
-    }
-
-    public double getShippedPrice(){
-        double total = 0;
-        for(CartItem item : items){
-            total += item.getShippingFees();
-        }
-        return total;
+    public List<Expirable> getExpirableItems() {
+        return items.stream()
+                .filter(item -> item instanceof Expirable)
+                .map(item -> (Expirable) item)
+                .collect(Collectors.toList());
     }
 
 
-    public double getSubtotal(){
-        double total = 0;
-        for(CartItem item : items){
-            total += item.getSubtotal();
-        }
-        return total;
+    public List<Shippable> getShippableItems() {
+        return items.stream()
+                .map(CartItem::getProduct)
+                .filter(product -> product instanceof Shippable)
+                .map(product -> (Shippable) product)
+                .collect(Collectors.toList());
     }
 
-    public double getTotalWeight(){
-        double total = 0;
-        for(CartItem item : items){
-            total += item.getWeight();
-        }
-        return total;
+
+    public double getShippedPrice() {
+        return items.stream()
+                .mapToDouble(CartItem::getShippingFees)
+                .sum();
     }
 
-    public double getTotalAmount(){
-        double total = 0;
-        for(CartItem currentItem: items){
-            total += currentItem.getTotalAmount();
-        }
-        return total;
+    public double getSubtotal() {
+        return items.stream()
+                .mapToDouble(CartItem::getSubtotal)
+                .sum();
     }
+
+    public double getTotalWeight() {
+        return items.stream()
+                .mapToDouble(CartItem::getWeight)
+                .sum();
+    }
+
+    public double getTotalAmount() {
+        return items.stream()
+                .mapToDouble(CartItem::getTotalAmount)
+                .sum();
+    }
+
 }

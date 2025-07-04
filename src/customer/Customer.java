@@ -23,6 +23,8 @@ public class Customer {
     }
 
     public void withdraw(double amount){
+        if(amount < 0)
+            throw new IllegalArgumentException("You can't withdraw in negative");
         if(amount > balance){
             throw  new IllegalArgumentException("There 's no enough balance to withdraw");
         }
