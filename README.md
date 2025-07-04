@@ -18,10 +18,9 @@ This is a simple e-commerce application built in Java. It allows users to browse
 ## Requirements
 
 - Java 8 or higher
-- Maven (for dependency management)
 
 ## Setup and Installation
 
-1. Clone the repository:
+Clone the repository:
    ```bash
    https://github.com/khalwsh/E-commerce.git
