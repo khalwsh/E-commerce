@@ -15,6 +15,11 @@ public class ExpiredShippableProduct extends Product implements Shippable , Expi
     }
 
     @Override
+    public String getName(){
+        return super.getName();
+    }
+
+    @Override
     public boolean isExpired() {
         return LocalDate.now().isAfter(expiredDate);
     }

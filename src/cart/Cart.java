@@ -46,8 +46,8 @@ public class Cart {
     public List <Shippable> getShippableItems(){
         List <Shippable> ShippableItems = new ArrayList<>();
         for(CartItem item : items){
-            if(item instanceof Shippable){
-                ShippableItems.add((Shippable) item);
+            if(item.getProduct() instanceof Shippable){
+                ShippableItems.add((Shippable) item.getProduct());
             }
         }
         return ShippableItems;

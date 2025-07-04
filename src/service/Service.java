@@ -6,6 +6,8 @@ import cart.CartItem;
 import product.interfaces.Shippable;
 import product.interfaces.Expirable;
 
+import java.util.List;
+
 // Utility class for handling checkout processes
 public class Service {
 
@@ -56,7 +58,6 @@ public class Service {
         System.out.println("** Successfully payment **");
     }
 
-    // Verify the validity of the purchases
     public static void VerifyValidityOfPurchases(Customer customer, Cart cart) {
         if (cart.isEmpty()) {
             throw new IllegalArgumentException("The cart can't be empty");
@@ -71,6 +72,11 @@ public class Service {
         }
         if (customer.getBalance() < cart.getTotalAmount()) {
             throw new IllegalArgumentException("The balance is insufficient");
+        }
+    }
+    public static void ShippingService(List<Shippable> shippables) {
+        for (Shippable shippable : shippables) {
+            System.out.println("the name of the shippable product is : " + shippable.getName() + " , and the weight is : " + shippable.getWeight());
         }
     }
 }
